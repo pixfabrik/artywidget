@@ -1,0 +1,5 @@
+*.sublime-workspace
+node_modules
+static/build/
+local-db
+keys-local.js

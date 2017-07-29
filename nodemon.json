@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "src/",
+    "views/"
+  ],
+  "ext": "js json html"
+}

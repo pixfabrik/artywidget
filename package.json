@@ -1,0 +1,36 @@
+{
+  "name": "artywidget",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.1",
+    "connect-mongo": "^0.8.1",
+    "cookie-parser": "1.3.2",
+    "express": "^4.12.4",
+    "express-session": "^1.11.3",
+    "grunt": "~0.4.0",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-concat": "~0.1.2",
+    "grunt-contrib-less": "~0.6.4",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.2.0",
+    "mongodb": "^2.0.35",
+    "multer": "^1.0.1",
+    "promise": "^7.0.3",
+    "querystring": "~0.2.0",
+    "request": "^2.64.0",
+    "underscore": "^1.8.3"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "watch": "nodemon & grunt dev",
+    "db": "mongod --dbpath local-db",
+    "logs": "rhc tail -a artywidget -n pixfabrik",
+    "postinstall": "node_modules/.bin/grunt build"
+  }
+}

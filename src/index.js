@@ -1,0 +1,156 @@
+#!/bin/env node
+
+var _ = require('underscore');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var express = require('express');
+var envHelpers = require('./env-helpers');
+var http = require('http');
+var keys = require('./keys');
+var MongoClient = require('mongodb').MongoClient;
+var path = require('path');
+var people = require('./people');
+var Router = require('./router');
+var session = require('express-session');
+
+var MongoStore = require('connect-mongo')(session);
+
+// SESSIONS:
+// * username
+// * userId (as string)
+
+// ----------
+var App = {
+  // ----------
+  init: function() {
+    var self = this;
+
+    this.setupVariables();
+    keys.init();
+
+    if (this.isProd) {
+      this.setupTerminationHandlers();
+    }
+
+    this.initDb(function() {
+      people.init(self.db, keys.passwordSalt);
+      self.initializeServer();
+      self.start();
+    });
+  },
+
+  // ----------
+  initDb: function(callback) {
+    var self = this;
+
+    var url = 'mongodb://' + this.dbConnectString;
+    MongoClient.connect(url, function(err, database) {
+      if (err) {
+        console.log('[App.initDb] error connecting', err);
+        callback();
+        return;
+      }
+
+      console.log('Connected correctly to db.');
+      self.db = database;
+      callback();
+    });
+  },
+
+  // ----------
+  start: function() {
+    var self = this;
+
+    var server = http.createServer();
+
+    server.on('request', this.app);
+    server.listen(this.port, this.ipAddress, function() {
+      console.log('%s: Node server started on http://%s:%d ...', Date(Date.now()), self.ipAddress, self.port);
+    });
+  },
+
+  // ----------
+  setupVariables: function() {
+    this.ipAddress = envHelpers.ipAddress;
+    this.port = envHelpers.port;
+    this.ipAddress = envHelpers.ipAddress;
+    this.wsPort = envHelpers.wsPort;
+    this.isProd = envHelpers.isProd;
+    this.baseUrl = envHelpers.baseUrl;
+
+    this.dbConnectString = '127.0.0.1:27017/dev';
+    // if OPENSHIFT env variables are present, use the available connection info:
+    if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+      this.dbConnectString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
+    }
+  },
+
+  // ----------
+  terminator: function(sig){
+    if (typeof sig === 'string') {
+       console.log('%s: Received %s - terminating sample app ...', Date(Date.now()), sig);
+       process.exit(1);
+    }
+
+    console.log('%s: Node server stopped.', Date(Date.now()));
+  },
+
+  // ----------
+  setupTerminationHandlers: function(){
+    var self = this;
+
+    process.on('exit', function() { self.terminator(); });
+
+    // Removed 'SIGPIPE' from the list - bugz 852598.
+    var events = ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
+     'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
+    ];
+
+    events.forEach(function(element, index, array) {
+      process.on(element, function() {
+        self.terminator(element);
+      });
+    });
+  },
+
+  // ----------
+  initializeServer: function() {
+    var self = this;
+
+    this.app = express();
+
+    this.app.use(bodyParser.urlencoded({
+      extended: false,
+      limit: '100mb'
+    }));
+
+    this.app.use(cookieParser());
+
+    this.app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+
+    this.app.use(session({
+      secret: keys.sessionSecret,
+      resave: false,
+      saveUninitialized: false,
+      store: new MongoStore({ db: this.db }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
+      }
+    }));
+
+    this.app.use('/static', express.static(path.join(__dirname, '..', 'static')));
+
+    this.router = new Router(this.app);
+  }
+};
+
+// ----------
+App.init();

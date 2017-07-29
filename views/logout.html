@@ -1,0 +1,8 @@
+<script>
+  var matches = location.search.match(/redirect=([^&]+)/);
+  if (matches && matches.length === 2) {
+    location.href = decodeURIComponent(matches[1]);
+  } else {
+    location.href = '/';
+  }
+</script>
