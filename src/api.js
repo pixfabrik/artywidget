@@ -1,8 +1,11 @@
 var _ = require('underscore');
+var artworks = require('./artworks');
 var ObjectId = require('mongodb').ObjectId;
 var people = require('./people');
 var request = require('request');
 var zot = require('./zot-node');
+
+var methods, $;
 
 // ----------
 module.exports = {
@@ -22,7 +25,7 @@ module.exports = {
 };
 
 // ----------
-var $ = {
+$ = {
   // ----------
   success: function(res, data) {
     res.send(JSON.stringify(_.extend({
@@ -41,7 +44,7 @@ var $ = {
 };
 
 // ----------
-var methods = {
+methods = {
   // ----------
   login: function(req, success, failure) {
     var username = (req.body.username || '').trim();
@@ -101,6 +104,32 @@ var methods = {
           }, function(person) {
             req.session.username = username;
             req.session.userId = person._id.toString();
+            success();
+          }, failure);
+        }
+      }, failure);
+    }
+  },
+
+  // ----------
+  'add-artwork': function(req, success, failure) {
+    var artworkName = (req.body.artworkName || '').trim();
+    var artworkUrl = (req.body.artworkUrl || '').trim();
+    var authorName = (req.body.authorName || '').trim();
+    var authorUrl = (req.body.authorUrl || '').trim();
+    if (!artworkUrl) {
+      failure('You must include an artwork URL.');
+    } else {
+      artworks.get({ url: artworkUrl }, function(artwork) {
+        if (artwork) {
+          failure('That artwork has already been added.');
+        } else {
+          artworks.create({
+            name: artworkName,
+            url: artworkUrl,
+            authorName: authorName,
+            authorUrl: authorUrl
+          }, function(artwork) {
             success();
           }, failure);
         }

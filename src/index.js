@@ -1,6 +1,7 @@
 #!/bin/env node
 
 var _ = require('underscore');
+var artworks = require('./artworks');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var express = require('express');
@@ -34,6 +35,7 @@ var App = {
 
     this.initDb(function() {
       people.init(self.db, keys.passwordSalt);
+      artworks.init(self.db);
       self.initializeServer();
       self.start();
     });

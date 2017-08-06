@@ -2,10 +2,16 @@
 (function() {
 
   // ----------
-  _.extend(App, {
+  _.extend(window.App, {
     // ----------
     initMain: function() {
       var self = this;
+
+      this.route([
+        ['/add', 'Add'],
+        ['', 'Home'],
+        ['.*', 'NotFound']
+      ]);
     }
   });
 

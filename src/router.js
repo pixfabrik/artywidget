@@ -5,6 +5,7 @@ var user = require('./routes/user');
 module.exports = function(express) {
   // -- DEFAULT
   express.get('/', defaults.home);
+  express.get('/add', defaults.home);
 
   // -- USER
   express.get('/login', user.login);
