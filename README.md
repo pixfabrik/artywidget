@@ -1,5 +1,7 @@
 # Arty Widget
 
+Learn more and support this project at https://www.patreon.com/posts/introducing-arty-13670890
+
 ## Development
 
 ### Dependencies

@@ -11,7 +11,8 @@ module.exports = function(grunt) {
 
   // ----------
   var modules = [
-    'home'
+    'home',
+    'login'
   ];
 
   var gruntConfig = {

@@ -7,6 +7,9 @@ module.exports = function(express) {
   express.get('/', defaults.home);
 
   // -- USER
+  express.get('/login', user.login);
+  express.get('/signup', user.login);
+//  express.get('/settings', user.settings);
   express.get('/logout', user.logout);
 
   // -- API

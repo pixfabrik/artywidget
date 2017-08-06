@@ -1,6 +1,7 @@
 {
     "env": {
-        "browser": true
+        "browser": true,
+        "node": true
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -21,12 +22,7 @@
             "error",
             "always"
         ],
-        "no-unused-vars": [
-            "error",
-            {
-                "args": "none"
-            }
-        ],
+        "no-unused-vars": 0,
         "block-scoped-var": [
             "error"
         ],

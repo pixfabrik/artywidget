@@ -7,6 +7,7 @@ var noOp = function() {
 };
 
 var keys = [
+  'login',
   'logout',
   'home',
   'base'
