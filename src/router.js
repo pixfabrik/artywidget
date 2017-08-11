@@ -7,6 +7,7 @@ module.exports = function(express) {
   // -- DEFAULT
   express.get('/', defaults.home);
   express.get('/add', defaults.home);
+  express.get('/artwork/*', defaults.home);
 
   // -- USER
   express.get('/login', user.login);

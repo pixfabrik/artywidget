@@ -10,10 +10,53 @@
   }
 }
 
+.artwork-page {
+  .page-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .artwork-display {
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  .artwork-iframe {
+    position: absolute;
+    border: none;
+  }
+
+  .artwork-metadata {
+    padding: 15px;
+    color: white;
+
+    .right {
+      float: right;
+    }
+  }
+}
+
 .add-page {
   .general-form {
     input {
       width: 100%;
     }
+  }
+}
+
+.for-artwork-page {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  body,
+  .content,
+  .artwork-page,
+  .page-content,
+  .artwork-iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 }

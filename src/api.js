@@ -168,6 +168,21 @@ methods = {
   },
 
   // ----------
+  'get-artwork': function(req, success, failure) {
+    var id = req.body._id;
+
+    if (!id) {
+      failure('Missing ID.');
+    } else {
+      artworks.get({ _id: ObjectId(id) }, function(artwork) {
+        success({
+          artwork: _.pick(artwork, ['name', 'url', 'authorName', 'authorUrl'])
+        });
+      }, failure);
+    }
+  },
+
+  // ----------
   'get-all-artworks': function(req, success, failure) {
     artworks.getMany({}, null, function(records) {
       success({
