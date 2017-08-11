@@ -1,0 +1,28 @@
+<div class="content">
+</div>
+
+<script id="adminhome-page-template" type="text/template">
+  <h1>Arty Widget</h1>
+  <h2>Admin</h2>
+  <h3>People</h3>
+  <div class="people-list"></div>
+  <h3>Artworks</h3>
+  <div class="artwork-list"></div>
+  <div class="footer">Arty Widget &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
+</script>
+
+<script id="people-list-template" type="text/template">
+  <% _.each(people, function(person) { %>
+    <div class="person">
+      <%- person.username %>
+    </div>
+  <% }); %>
+</script>
+
+<script id="artwork-list-template" type="text/template">
+  <% _.each(artworks, function(artwork) { %>
+    <div class="artwork">
+      <a href="/artwork/<%- artwork._id %>/"><%- artwork.name %></a>
+    </div>
+  <% }); %>
+</script>

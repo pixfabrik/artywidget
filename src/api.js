@@ -45,6 +45,9 @@ $ = {
 
 // ----------
 methods = {
+
+  // PEOPLE
+
   // ----------
   login: function(req, success, failure) {
     var username = (req.body.username || '').trim();
@@ -100,7 +103,8 @@ methods = {
           people.create({
             username: username,
             password: password,
-            email: email
+            email: email,
+            creationDate: (new Date()).toISOString()
           }, function(person) {
             req.session.username = username;
             req.session.userId = person._id.toString();
@@ -112,28 +116,65 @@ methods = {
   },
 
   // ----------
+  'get-all-people': function(req, success, failure) {
+    people.getMany({}, null, function(records) {
+      success({
+        people: _.map(records, function(record) {
+          return _.pick(record, ['username']);
+        })
+      });
+    }, failure);
+  },
+
+  // ARTWORKS
+
+  // ----------
   'add-artwork': function(req, success, failure) {
     var artworkName = (req.body.artworkName || '').trim();
     var artworkUrl = (req.body.artworkUrl || '').trim();
     var authorName = (req.body.authorName || '').trim();
     var authorUrl = (req.body.authorUrl || '').trim();
-    if (!artworkUrl) {
-      failure('You must include an artwork URL.');
+
+    if (!req.session.userId) {
+      failure(new Error('You must be logged in to add an artwork.'));
     } else {
-      artworks.get({ url: artworkUrl }, function(artwork) {
-        if (artwork) {
-          failure('That artwork has already been added.');
+      people.get({ _id: ObjectId(req.session.userId) }, function(person) {
+        if (!person) {
+          failure(new Error('You must be logged in to add an artwork.'));
         } else {
-          artworks.create({
-            name: artworkName,
-            url: artworkUrl,
-            authorName: authorName,
-            authorUrl: authorUrl
-          }, function(artwork) {
-            success();
-          }, failure);
+          if (!artworkUrl) {
+            failure('You must include an artwork URL.');
+          } else {
+            artworks.get({ url: artworkUrl }, function(artwork) {
+              if (artwork) {
+                failure('That artwork has already been added.');
+              } else {
+                artworks.create({
+                  name: artworkName,
+                  url: artworkUrl,
+                  authorName: authorName,
+                  authorUrl: authorUrl,
+                  creationDate: (new Date()).toISOString(),
+                  submitterId: person._id,
+                }, function(artwork) {
+                  success();
+                }, failure);
+              }
+            }, failure);
+          }
         }
       }, failure);
     }
+  },
+
+  // ----------
+  'get-all-artworks': function(req, success, failure) {
+    artworks.getMany({}, null, function(records) {
+      success({
+        artworks: _.map(records, function(record) {
+          return _.pick(record, ['name', '_id']);
+        })
+      });
+    }, failure);
   }
 };

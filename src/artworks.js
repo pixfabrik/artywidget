@@ -2,6 +2,8 @@
 // * url
 // * authorName
 // * authorUrl
+// * creationDate
+// * submitterId
 
 module.exports = {
   // ----------
@@ -16,6 +18,23 @@ module.exports = {
         failure(err);
       } else {
         success(docs[0]);
+      }
+    });
+  },
+
+  // ----------
+  getMany: function(query, sort, success, failure) {
+    var cursor = this._db.collection('artworks').find(query);
+
+    if (sort) {
+      cursor.sort(sort);
+    }
+
+    cursor.toArray(function(err, docs) {
+      if (err) {
+        failure(err);
+      } else {
+        success(docs);
       }
     });
   },

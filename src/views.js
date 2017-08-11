@@ -10,11 +10,12 @@ var keys = [
   'login',
   'logout',
   'home',
+  'admin',
   'base'
 ];
 
 _.templateSettings = {
-  interpolate : /\{\{(.+?)\}\}/g
+  interpolate: /\{\{(.+?)\}\}/g
 };
 
 _.each(keys, function(v, i) {

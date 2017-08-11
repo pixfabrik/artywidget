@@ -1,5 +1,6 @@
-var defaults = require('./routes/defaults');
+var admin = require('./routes/admin');
 var api = require('./routes/api');
+var defaults = require('./routes/defaults');
 var user = require('./routes/user');
 
 module.exports = function(express) {
@@ -12,6 +13,9 @@ module.exports = function(express) {
   express.get('/signup', user.login);
 //  express.get('/settings', user.settings);
   express.get('/logout', user.logout);
+
+  // -- ADMIN
+  express.get('/admin', admin.main);
 
   // -- API
   express.post('/api/:method', api.callApi);
