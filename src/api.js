@@ -132,6 +132,7 @@ methods = {
   'add-artwork': function(req, success, failure) {
     var artworkName = (req.body.artworkName || '').trim();
     var artworkUrl = (req.body.artworkUrl || '').trim();
+    var infoUrl = (req.body.infoUrl || '').trim();
     var authorName = (req.body.authorName || '').trim();
     var authorUrl = (req.body.authorUrl || '').trim();
 
@@ -152,12 +153,15 @@ methods = {
                 artworks.create({
                   name: artworkName,
                   url: artworkUrl,
+                  infoUrl: infoUrl,
                   authorName: authorName,
                   authorUrl: authorUrl,
                   creationDate: (new Date()).toISOString(),
                   submitterId: person._id,
                 }, function(artwork) {
-                  success();
+                  success({
+                    _id: artwork._id
+                  });
                 }, failure);
               }
             }, failure);
@@ -176,7 +180,7 @@ methods = {
     } else {
       artworks.get({ _id: ObjectId(id) }, function(artwork) {
         success({
-          artwork: _.pick(artwork, ['name', 'url', 'authorName', 'authorUrl'])
+          artwork: _.pick(artwork, ['name', 'url', 'infoUrl', 'authorName', 'authorUrl'])
         });
       }, failure);
     }

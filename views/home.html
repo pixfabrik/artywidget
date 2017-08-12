@@ -32,7 +32,7 @@
         by <%- artwork.authorName %>
       <% } %>
     <% } %>
-    (<a href="<%- artwork.url %>" target="_blank">original</a>)
+    (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
   </div>
 </script>
 
@@ -50,6 +50,10 @@
         <input type="text" name="artworkUrl" class="artworkUrl" autocapitalize="off" autocorrect="off">
       </div>
       <div class="row">
+        <div class="prompt">More Info URL:</div>
+        <input type="text" name="infoUrl" class="infoUrl" autocapitalize="off" autocorrect="off">
+      </div>
+      <div class="row">
         <div class="prompt">Author Name:</div>
         <input type="text" name="authorName" class="authorName" autocorrect="off">
       </div>
@@ -59,7 +63,7 @@
       </div>
       <div class="error"></div>
       <div class="row">
-        <button class="add-button">Add Artwork</button>
+        <div class="add-button button">Add Artwork</div>
       </div>
     </form>
     <div class="footer"><a href="/">Arty Widget</a> &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>

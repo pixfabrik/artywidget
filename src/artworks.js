@@ -1,5 +1,6 @@
 // * name
 // * url
+// * infoUrl
 // * authorName
 // * authorUrl
 // * creationDate
