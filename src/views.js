@@ -35,7 +35,7 @@ module.exports = {
     if (options.forceProtocol) {
       var secureFlag = (req.headers['x-forwarded-proto'] === 'https');
       var newSecureFlag = (options.forceProtocol === 'https');
-      if (envHelpers.isProd && req.secure !== newSecureFlag) {
+      if (envHelpers.isProd && secureFlag !== newSecureFlag) {
         var baseUrl = (newSecureFlag ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
         res.redirect(301, baseUrl + req.url);
         return;
