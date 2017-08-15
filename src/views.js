@@ -33,6 +33,7 @@ module.exports = {
     options = options || {};
 
     if (options.forceProtocol) {
+      // Note that on OpenShift, req.protocol and req.secure don't give us the info we need
       var secureFlag = (req.headers['x-forwarded-proto'] === 'https');
       var newSecureFlag = (options.forceProtocol === 'https');
       if (envHelpers.isProd && secureFlag !== newSecureFlag) {
@@ -45,12 +46,7 @@ module.exports = {
     res.setHeader('Content-Type', 'text/html');
 
     var username;
-    var forClient = {
-      secure: req.secure,
-      protocol: req.protocol,
-      keys: _.keys(req),
-      headers: req.headers
-    };
+    var forClient = {};
 
     if (req.session) {
       username = req.session.username;
