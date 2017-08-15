@@ -44,6 +44,13 @@
     },
 
     // ----------
+    addNavBar: function($parent) {
+      this.template('nav-bar', {
+        username: this.user.name
+      }).appendTo($parent);
+    },
+
+    // ----------
     route: function(routes) {
       var self = this;
 
@@ -83,6 +90,11 @@
           $el: $el,
           params: params
         });
+      }
+
+      var $navBarStub = $('.nav-bar-stub');
+      if ($navBarStub.length) {
+        this.addNavBar($navBarStub);
       }
     },
 

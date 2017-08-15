@@ -187,6 +187,64 @@ methods = {
   },
 
   // ----------
+  'previous-artwork': function(req, success, failure) {
+    var id = req.body._id;
+
+    if (!id) {
+      failure('Missing ID.');
+    } else {
+      artworks.getMany({}, null, function(records) {
+        var index = -1;
+        var record;
+        for (var i = 0; i < records.length; i++) {
+          record = records[i];
+          if (record._id.toString() === id) {
+            index = i - 1;
+            break;
+          }
+        }
+
+        if (index < 0) {
+          index = records.length - 1;
+        }
+
+        success({
+          _id: records[index]._id.toString()
+        });
+      }, failure);
+    }
+  },
+
+  // ----------
+  'next-artwork': function(req, success, failure) {
+    var id = req.body._id;
+
+    if (!id) {
+      failure('Missing ID.');
+    } else {
+      artworks.getMany({}, null, function(records) {
+        var index = -1;
+        var record;
+        for (var i = 0; i < records.length; i++) {
+          record = records[i];
+          if (record._id.toString() === id) {
+            index = i + 1;
+            break;
+          }
+        }
+
+        if (index === -1 || index > records.length - 1) {
+          index = 0;
+        }
+
+        success({
+          _id: records[index]._id.toString()
+        });
+      }, failure);
+    }
+  },
+
+  // ----------
   'get-all-artworks': function(req, success, failure) {
     artworks.getMany({}, null, function(records) {
       success({

@@ -17,5 +17,19 @@
     <script>
       App.fromServer = {{ forClient }};
     </script>
+
+    <script id="nav-bar-template" type="text/template">
+      <div class="nav-bar">
+        <div class="left">
+          <a href="/">Arty Widget</a>
+        </div>
+        <div class="right">
+          <% if (username) { %>
+            <%- username %> <a href="/logout?redirect=<%- encodeURI(location.href) %>">log out</a>
+          <% } %>
+        </div>
+      </div>
+    </script>
+
   </body>
 </html>

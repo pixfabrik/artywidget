@@ -28,12 +28,44 @@
   }
 
   .artwork-metadata {
-    padding: 15px;
+    display: flex;
     color: white;
+    background: #444;
+
+    .left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+    }
+
+    .middle {
+      flex-grow: 1;
+      padding: 15px 10px;
+    }
 
     .right {
-      float: right;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
     }
+  }
+
+  .arrow-button {
+    width: 20px;
+    height: 20px;
+    background: center center no-repeat;
+    background-size: contain;
+    cursor: pointer;
+  }
+
+  .left-arrow {
+    background-image: url(/static/img/home/left-arrow.svg);
+  }
+
+  .right-arrow {
+    background-image: url(/static/img/home/right-arrow.svg);
   }
 }
 

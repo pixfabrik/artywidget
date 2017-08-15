@@ -2,6 +2,7 @@
 </div>
 
 <script id="home-page-template" type="text/template">
+  <div class="nav-bar-stub"></div>
   <div class="content-frame">
     <h1>Arty Widget</h1>
     <h2>Collect, share, and present code-based art on the web.</h2>
@@ -19,24 +20,33 @@
 </script>
 
 <script id="artwork-page-content-template" type="text/template">
+  <div class="nav-bar-stub"></div>
   <div class="artwork-display">
     <iframe class="artwork-iframe" src="<%- artwork.url %>"></iframe>
   </div>
   <div class="artwork-metadata">
-    <div class="right"><a href="/">Arty Widget</a></div>
-    <%- artwork.name %>
-    <% if (artwork.authorName) { %>
-      <% if (artwork.authorUrl) { %>
-        by <a href="<%- artwork.authorUrl %>" target="_blank"><%- artwork.authorName %></a>
-      <% } else { %>
-        by <%- artwork.authorName %>
+    <div class="left">
+      <div class="left-arrow arrow-button"></div>
+    </div>
+    <div class="middle">
+      <%- artwork.name %>
+      <% if (artwork.authorName) { %>
+        <% if (artwork.authorUrl) { %>
+          by <a href="<%- artwork.authorUrl %>" target="_blank"><%- artwork.authorName %></a>
+        <% } else { %>
+          by <%- artwork.authorName %>
+        <% } %>
       <% } %>
-    <% } %>
-    (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
+      (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
+    </div>
+    <div class="right">
+      <div class="right-arrow arrow-button"></div>
+    </div>
   </div>
 </script>
 
 <script id="add-page-template" type="text/template">
+  <div class="nav-bar-stub"></div>
   <div class="content-frame">
     <h1><a href="/">Arty Widget</a></h1>
     <p>Add a new artwork.</p>
@@ -71,6 +81,7 @@
 </script>
 
 <script id="notfound-page-template" type="text/template">
+  <div class="nav-bar-stub"></div>
   <div class="content-frame">
     <h1>404 Not Found</h1>
   </div>
