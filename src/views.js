@@ -32,14 +32,15 @@ module.exports = {
   sendHTML: function(req, res, name, options) {
     options = options || {};
 
-    // if (options.forceProtocol) {
-    //   var newSecureFlag = (options.forceProtocol === 'https');
-    //   if (envHelpers.isProd && req.secure !== newSecureFlag) {
-    //     var baseUrl = (newSecureFlag ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
-    //     res.redirect(301, baseUrl + req.url);
-    //     return;
-    //   }
-    // }
+    if (options.forceProtocol) {
+      var secureFlag = (req.headers['x-forwarded-proto'] === 'http');
+      var newSecureFlag = (options.forceProtocol === 'https');
+      if (envHelpers.isProd && req.secure !== newSecureFlag) {
+        var baseUrl = (newSecureFlag ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
+        res.redirect(301, baseUrl + req.url);
+        return;
+      }
+    }
 
     res.setHeader('Content-Type', 'text/html');
 
