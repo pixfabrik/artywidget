@@ -33,8 +33,9 @@ module.exports = {
     options = options || {};
 
     if (options.forceProtocol) {
-      if (envHelpers.isProd && req.protocol !== options.forceProtocol) {
-        var baseUrl = (options.forceProtocol === 'https' ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
+      var newSecureFlag = (options.forceProtocol === 'https');
+      if (envHelpers.isProd && req.secure !== newSecureFlag) {
+        var baseUrl = (newSecureFlag ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
         res.redirect(301, baseUrl + req.url);
         return;
       }
