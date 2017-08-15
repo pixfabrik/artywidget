@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var envHelpers = require('./env-helpers');
 var fs = require('fs');
 
 var viewCache = {};
@@ -28,7 +29,17 @@ _.each(keys, function(v, i) {
 
 module.exports = {
   // ----------
-  sendHTML: function(req, res, name, requiresSession) {
+  sendHTML: function(req, res, name, options) {
+    options = options || {};
+
+    if (options.forceProtocol) {
+      if (envHelpers.isProd && req.protocol !== options.forceProtocol) {
+        var baseUrl = (options.forceProtocol === 'https' ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
+        res.redirect(301, baseUrl + req.url);
+        return;
+      }
+    }
+
     res.setHeader('Content-Type', 'text/html');
 
     var username;
@@ -38,10 +49,6 @@ module.exports = {
       username = req.session.username;
       forClient.username = req.session.username;
       forClient.userId = req.session.userId;
-    }
-
-    if (requiresSession && !username) {
-      name = 'login';
     }
 
     var data = {

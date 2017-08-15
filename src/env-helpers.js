@@ -8,10 +8,13 @@ if (!isProd && port !== 80) {
   baseUrl += ':' + port;
 }
 
+var baseSecureUrl = baseUrl.replace(/^http/, 'https');
+
 module.exports = {
   ipAddress: ipAddress,
   port: port,
   isProd: isProd,
   wsPort: wsPort,
-  baseUrl: baseUrl
+  baseUrl: baseUrl,
+  baseSecureUrl: baseSecureUrl
 };
