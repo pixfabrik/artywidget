@@ -48,7 +48,8 @@ module.exports = {
     var forClient = {
       secure: req.secure,
       protocol: req.protocol,
-      keys: _.keys(req)
+      keys: _.keys(req),
+      headers: req.headers
     };
 
     if (req.session) {
