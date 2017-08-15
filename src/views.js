@@ -32,19 +32,23 @@ module.exports = {
   sendHTML: function(req, res, name, options) {
     options = options || {};
 
-    if (options.forceProtocol) {
-      var newSecureFlag = (options.forceProtocol === 'https');
-      if (envHelpers.isProd && req.secure !== newSecureFlag) {
-        var baseUrl = (newSecureFlag ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
-        res.redirect(301, baseUrl + req.url);
-        return;
-      }
-    }
+    // if (options.forceProtocol) {
+    //   var newSecureFlag = (options.forceProtocol === 'https');
+    //   if (envHelpers.isProd && req.secure !== newSecureFlag) {
+    //     var baseUrl = (newSecureFlag ? envHelpers.baseSecureUrl : envHelpers.baseUrl);
+    //     res.redirect(301, baseUrl + req.url);
+    //     return;
+    //   }
+    // }
 
     res.setHeader('Content-Type', 'text/html');
 
     var username;
-    var forClient = {};
+    var forClient = {
+      secure: req.secure,
+      protocol: req.protocol,
+      keys: _.keys(req)
+    };
 
     if (req.session) {
       username = req.session.username;
