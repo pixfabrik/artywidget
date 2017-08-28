@@ -1,5 +1,7 @@
 var _ = require('underscore');
 var artworks = require('./artworks');
+var fs = require('fs');
+var images = require('./images');
 var ObjectId = require('mongodb').ObjectId;
 var people = require('./people');
 var request = require('request');
@@ -40,6 +42,25 @@ $ = {
       message: message || 'unknown error',
       name: name
     }));
+  },
+
+  // ----------
+  checkSignedIn: function(req, what, success, failure) {
+    var userId = ObjectId(req.session.userId);
+    if (userId) {
+      success(userId);
+    } else {
+      failure('You must be signed in to ' + what + '.');
+    }
+  },
+
+  // ----------
+  checkErr: function(err, success, failure) {
+    if (err) {
+      failure(err);
+    } else {
+      success();
+    }
   }
 };
 
@@ -249,9 +270,57 @@ methods = {
     artworks.getMany({}, null, function(records) {
       success({
         artworks: _.map(records, function(record) {
-          return _.pick(record, ['name', '_id']);
+          return _.pick(record, ['name', '_id', 'imageUrl']);
         })
       });
     }, failure);
+  },
+
+  // ----------
+  'add-artwork-image-from-form': function(req, success, failure) {
+    var artworkId = req.body.artwork;
+
+    if (!req.file) {
+      failure('Missing image.');
+    } else {
+      fs.readFile(req.file.path, function(err, data) {
+        fs.unlink(req.file.path, function(err) {
+          if (err) {
+            console.log('error deleting temp file', err);
+          }
+        });
+
+        if (err) {
+          failure(err);
+        } else if (!artworkId) {
+          failure('Missing artwork ID.');
+        } else if (!req.session.userId) {
+          failure(new Error('You must be logged in to add an image.'));
+        } else {
+          var userId = ObjectId(req.session.userId);
+          people.get({ _id: userId }, function(person) {
+            if (!person) {
+              failure('You must be logged in to add an image');
+            } else if (!people.isAdmin(person)) {
+              failure('This only works for admins.');
+            } else {
+              artworkId = ObjectId(artworkId);
+              artworks.get({ _id: artworkId }, function(artwork) {
+                if (!artwork) {
+                  failure('Missing artwork.');
+                } else {
+                  images.create(userId, data, req.file.mimetype, function(url) {
+                    artwork.imageUrl = url;
+                    artworks.update(artwork, function() {
+                      success();
+                    }, failure);
+                  }, failure);
+                }
+              }, failure);
+            }
+          }, failure);
+        }
+      });
+    }
   }
 };

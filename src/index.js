@@ -4,6 +4,7 @@ var _ = require('underscore');
 var artworks = require('./artworks');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var db = require('./db');
 var express = require('express');
 var envHelpers = require('./env-helpers');
 var http = require('http');
@@ -34,6 +35,7 @@ var App = {
     }
 
     this.initDb(function() {
+      db.init(self.db);
       people.init(self.db, keys.passwordSalt);
       artworks.init(self.db);
       self.initializeServer();
@@ -132,11 +134,11 @@ var App = {
 
     this.app.use(cookieParser());
 
-    this.app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      next();
-    });
+    // this.app.use(function(req, res, next) {
+    //   res.header("Access-Control-Allow-Origin", "*");
+    //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    //   next();
+    // });
 
     this.app.use(session({
       secret: keys.sessionSecret,

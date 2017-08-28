@@ -1,6 +1,7 @@
 var admin = require('./routes/admin');
 var api = require('./routes/api');
 var defaults = require('./routes/defaults');
+var multer  = require('multer');
 var user = require('./routes/user');
 
 module.exports = function(express) {
@@ -19,7 +20,8 @@ module.exports = function(express) {
   express.get('/admin', admin.main);
 
   // -- API
-  express.post('/api/:method', api.callApi);
+  var upload = multer({ dest: 'uploads/' });
+  express.post('/api/:method', upload.single('image'), api.callApi);
 
   console.log('Routes initialized');
 };

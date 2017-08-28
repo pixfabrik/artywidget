@@ -5,6 +5,7 @@
 // * authorUrl
 // * creationDate
 // * submitterId
+// * imageUrl
 
 module.exports = {
   // ----------

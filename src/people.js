@@ -22,10 +22,17 @@ module.exports = {
   },
 
   // ----------
+  isAdmin: function(person) {
+    return (!envHelpers.isProd || (person && person.isAdmin));
+  },
+
+  // ----------
   adminCheck: function(req, yesCallback, noCallback) {
+    var self = this;
+
     if (req.session.userId) {
       this.get({ _id: ObjectId(req.session.userId) }, function(person) {
-        if (!envHelpers.isProd || (person && person.isAdmin)) {
+        if (self.isAdmin(person)) {
           yesCallback();
         } else {
           noCallback();

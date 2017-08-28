@@ -113,6 +113,8 @@
         method: 'POST',
         url: url,
         data: config.content,
+        contentType: config.contentType,
+        processData: config.processData,
         success: function(data) {
           if (!data || !data.status) {
             failure('The server is not responding correctly.');
