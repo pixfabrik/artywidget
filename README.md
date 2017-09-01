@@ -32,3 +32,5 @@ This project is set up to deploy to OpenShift, but it should work on most Node h
 
 * `SESSION_SECRET`
 * `PASSWORD_SALT`
+* `AWS_ACCESS_KEY_ID`
+* `AWS_SECRET_ACCESS_KEY`

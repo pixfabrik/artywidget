@@ -58,8 +58,21 @@ module.exports = {
       moduleName: name,
       mainContent: viewCache[name](),
       username: username,
-      forClient: JSON.stringify(forClient)
+      forClient: JSON.stringify(forClient),
+      headExtra: ''
     };
+
+    if (options.social) {
+      data.headExtra += '<meta property="og:title" content="' + options.social.title + '" />\n';
+      data.headExtra += '<meta property="og:description" content="' + options.social.description + '" />\n';
+      data.headExtra += '<meta property="og:image" content="' + options.social.imageUrl + '" />\n';
+
+      data.headExtra += '<meta name="twitter:card" content="summary_large_image" />\n';
+      data.headExtra += '<meta name="twitter:site" content="@artywidget" />\n';
+      data.headExtra += '<meta name="twitter:title" content="' + options.social.title + '" />\n';
+      data.headExtra += '<meta name="twitter:description" content="' + options.social.description + '" />\n';
+      data.headExtra += '<meta name="twitter:image" content="' + options.social.imageUrl + '" />\n';
+    }
 
     res.send(viewCache.base(data));
   },
