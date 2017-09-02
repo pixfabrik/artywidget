@@ -8,17 +8,16 @@
     this.$el = config.$el;
     this.$artworkStub = this.$el.find('.artwork-stub');
 
-    if (App.user.id) {
-      App.request({
-        method: 'get-all-artworks',
-        success: function(data) {
-          App.template('home-artwork', data).appendTo(self.$artworkStub);
-        },
-        error: function(message) {
-          self._error(message);
-        }
-      });
-    }
+    App.request({
+      method: 'get-all-artworks',
+      success: function(data) {
+        // data.artworks = data.artworks.concat(data.artworks);
+        App.template('home-artwork', data).appendTo(self.$artworkStub);
+      },
+      error: function(message) {
+        self._error(message);
+      }
+    });
   };
 
   // ----------

@@ -7,6 +7,7 @@ var user = require('./routes/user');
 module.exports = function(express) {
   // -- DEFAULT
   express.get('/', defaults.home);
+  express.get('/about', defaults.home);
   express.get('/add', defaults.home);
   express.get('/artwork/:artworkId', defaults.artwork);
 

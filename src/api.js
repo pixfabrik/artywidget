@@ -270,7 +270,7 @@ methods = {
     artworks.getMany({}, null, function(records) {
       success({
         artworks: _.map(records, function(record) {
-          return _.pick(record, ['name', '_id', 'imageUrl']);
+          return _.pick(record, ['name', '_id', 'imageUrl', 'authorName']);
         })
       });
     }, failure);

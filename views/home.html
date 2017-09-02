@@ -3,27 +3,38 @@
 
 <script id="home-page-template" type="text/template">
   <div class="nav-bar-stub"></div>
+  <div class="artwork-stub"></div>
+  <div class="footer">Arty Widget &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
+</script>
+
+<script id="home-artwork-template" type="text/template">
+  <div class="artwork-list">
+    <% _.each(artworks, function(artwork) { %>
+      <% if (artwork.imageUrl) { %>
+        <a href="/artwork/<%- artwork._id %>/" class="artwork">
+          <div class="thumbnail" style="background-image: url(<%- artwork.imageUrl %>)"></div>
+          <div class="title">
+            <%- artwork.name %>
+            <% if (artwork.authorName) { %>
+              by <%- artwork.authorName %>
+            <% } %>
+          </div>
+        </a>
+      <% } %>
+    <% }); %>
+  </div>
+</script>
+
+<script id="about-page-template" type="text/template">
+  <div class="nav-bar-stub"></div>
   <div class="content-frame">
-    <h1>Arty Widget</h1>
     <h2>Collect, share, and present code-based art on the web.</h2>
-    <div class="artwork-stub"></div>
     <div class="content-body">
-      <p>Coming soon!  Stay tuned at <a href="https://twitter.com/ArtyWidget">@ArtyWidget</a> or join <a href="http://eepurl.com/cYBkz5">the mailing list</a>.</p>
+      <p>Stay tuned at <a href="https://twitter.com/ArtyWidget">@ArtyWidget</a> or join <a href="http://eepurl.com/cYBkz5">the mailing list</a>.</p>
       <p>You can also get involved on <a href="https://github.com/pixfabrik/artywidget">GitHub</a>.</p>
       <p>Learn more and support this project at <a href="https://www.patreon.com/posts/introducing-arty-13670890">Patreon</a>.</p>
     </div>
     <div class="footer">Arty Widget &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
-  </div>
-</script>
-
-<script id="home-artwork-template" type="text/template">
-  <h3>Artworks</h3>
-  <div class="artwork-list">
-    <% _.each(artworks, function(artwork) { %>
-      <div class="artwork">
-        <a href="/artwork/<%- artwork._id %>/"><%- artwork.name %></a>
-      </div>
-    <% }); %>
   </div>
 </script>
 

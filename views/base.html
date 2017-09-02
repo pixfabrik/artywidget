@@ -22,11 +22,14 @@
     <script id="nav-bar-template" type="text/template">
       <div class="nav-bar">
         <div class="left">
-          <a href="/">Arty Widget</a>
+          <a href="/" class="site-logo">Arty Widget</a>
+          <a href="/about/">about</a>
         </div>
         <div class="right">
           <% if (username) { %>
             <%- username %> <a href="/logout?redirect=<%- encodeURI(location.href) %>">log out</a>
+          <% } else { %>
+            <a href="/signup/">sign up</a> / <a href="/login/">log in</a>
           <% } %>
         </div>
       </div>

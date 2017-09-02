@@ -9,6 +9,7 @@
 
       this.route([
         ['/add', 'Add'],
+        ['/about', 'About'],
         ['/artwork/(.*)', 'Artwork'],
         ['', 'Home'],
         ['.*', 'NotFound']
