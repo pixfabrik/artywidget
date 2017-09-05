@@ -28,11 +28,21 @@
 <script id="about-page-template" type="text/template">
   <div class="nav-bar-stub"></div>
   <div class="content-frame">
+    <h1>About Arty Widget</h1>
     <h2>Collect, share, and present code-based art on the web.</h2>
     <div class="content-body">
-      <p>Stay tuned at <a href="https://twitter.com/ArtyWidget">@ArtyWidget</a> or join <a href="http://eepurl.com/cYBkz5">the mailing list</a>.</p>
-      <p>You can also get involved on <a href="https://github.com/pixfabrik/artywidget">GitHub</a>.</p>
-      <p>Learn more and support this project at <a href="https://www.patreon.com/posts/introducing-arty-13670890">Patreon</a>.</p>
+      <p>There are a lot of amazing code-based artworks on the web, but there doesn't seem to be a great audience-friendly place to go enjoy them; you either have to hunt them down one by one, or they're housed in programmer-oriented sites like <a href="http://codepen.io/" target="_blank">CodePen</a> and <a href="http://shadertoy.com/" target="_blank">Shadertoy</a>. Arty Widget aims to be a place where non-technical folks can collect, share, and experience these artworks &mdash; a place to promote and present code-based art in a way that’s nourishing to artist and audience alike.</p>
+      <p>We're just getting started, but the plan is that you'll be able to go to the homepage and scroll through the top artworks. You'll be able to add new artworks (links to wherever they exist on the Internet) and collect your favorites. You'll also be able to view them through the site. One way will simply be to click directly into them. Another way is to set up a playlist of them, or have them selected at random. That latter mode is ideal for ambient screens; just load up Arty Widget on any spare screen, such as a television or a tablet, and you have a lovely art display. Then you can change the display from any other device, such as your phone.</p>
+      <p>Sound good? Want to be part of this? You can:</p>
+      <ul>
+        <li>Start <a href="http://www.artywidget.com/artwork/59927a8daee939673a82efb4/">exploring</a>! (Use the arrows at the bottom of the screen to flip between artworks.)</li>
+        <li>Collect and/or build artworks to include (here are some <a href="https://github.com/pixfabrik/artywidget/wiki/Artwork-Guidelines" target="_blank">artwork guidelines</a>) and <a href="/add/">add them</a> (you'll need to <a href="/signup/">sign up</a> / <a href="/login/">log in</a> first).</li>
+        <li>Help spread the word to both audience and creators who might be interested.</li>
+        <li>Follow along <a href="https://twitter.com/ArtyWidget" target="_blank">via Twitter</a> or <a href="http://eepurl.com/cYBkz5" target="_blank">the mailing list</a>.</li>
+        <li>Help build it <a href="https://github.com/pixfabrik/artywidget" target="_blank">on GitHub</a>.</li>
+        <li>Pledge your support <a href="https://www.patreon.com/posts/introducing-arty-13670890" target="_blank">on Patreon</a>.</li>
+      </ul>
+      <p>Together we can cast a spotlight on this fabulous art form!</p>
     </div>
     <div class="footer">Arty Widget &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
   </div>
@@ -71,34 +81,37 @@
 <script id="add-page-template" type="text/template">
   <div class="nav-bar-stub"></div>
   <div class="content-frame">
-    <h1><a href="/">Arty Widget</a></h1>
-    <p>Add a new artwork.</p>
-    <form class="add-form general-form">
-      <div class="row">
-        <div class="prompt">Artwork Name:</div>
-        <input type="text" name="artworkName" class="artworkName" autocorrect="off">
-      </div>
-      <div class="row">
-        <div class="prompt">Artwork URL:</div>
-        <input type="text" name="artworkUrl" class="artworkUrl" autocapitalize="off" autocorrect="off">
-      </div>
-      <div class="row">
-        <div class="prompt">More Info URL:</div>
-        <input type="text" name="infoUrl" class="infoUrl" autocapitalize="off" autocorrect="off">
-      </div>
-      <div class="row">
-        <div class="prompt">Author Name:</div>
-        <input type="text" name="authorName" class="authorName" autocorrect="off">
-      </div>
-      <div class="row">
-        <div class="prompt">Author URL:</div>
-        <input type="text" name="authorUrl" class="authorUrl" autocapitalize="off" autocorrect="off">
-      </div>
-      <div class="error"></div>
-      <div class="row">
-        <div class="add-button button">Add Artwork</div>
-      </div>
-    </form>
+    <h1><a href="/">Add Artwork</a></h1>
+    <% if (App.user.id) { %>
+      <form class="add-form general-form">
+        <div class="row">
+          <div class="prompt">Artwork Name:</div>
+          <input type="text" name="artworkName" class="artworkName" autocorrect="off">
+        </div>
+        <div class="row">
+          <div class="prompt">Artwork URL:</div>
+          <input type="text" name="artworkUrl" class="artworkUrl" autocapitalize="off" autocorrect="off">
+        </div>
+        <div class="row">
+          <div class="prompt">More Info URL:</div>
+          <input type="text" name="infoUrl" class="infoUrl" autocapitalize="off" autocorrect="off">
+        </div>
+        <div class="row">
+          <div class="prompt">Author Name:</div>
+          <input type="text" name="authorName" class="authorName" autocorrect="off">
+        </div>
+        <div class="row">
+          <div class="prompt">Author URL:</div>
+          <input type="text" name="authorUrl" class="authorUrl" autocapitalize="off" autocorrect="off">
+        </div>
+        <div class="error"></div>
+        <div class="row">
+          <div class="add-button button">Add Artwork</div>
+        </div>
+      </form>
+    <% } else { %>
+      <p>Please <a href="/login/">log in</a> (or <a href="/signup/">sign up</a>) to add an artwork.</p>
+    <% } %>
     <div class="footer"><a href="/">Arty Widget</a> &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
   </div>
 </script>
