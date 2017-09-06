@@ -24,7 +24,7 @@ exports.artwork = function(req, res) {
       if (artwork) {
         options.social = {
           title: artwork.name,
-          description: artwork.authorName ? 'by ' + artwork.authorName : '',
+          description: artwork.authorName ? 'by ' + artwork.authorName : 'unknown artist',
           imageUrl: artwork.imageUrl
         };
 
