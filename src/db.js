@@ -113,10 +113,11 @@ module.exports = {
 
     return new Promise(function(resolve, reject) {
       if (query) {
-        self.db.collection(collectionName, query).remove(function(err, removedCount) {
+        self.db.collection(collectionName).deleteOne(query, function(err, result) {
           if (err) {
             reject(err);
           } else {
+            var removedCount = result.deletedCount;
             resolve(removedCount);
           }
         });

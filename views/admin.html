@@ -9,6 +9,7 @@
     <h3>People</h3>
     <div class="people-list"></div>
     <h3>Artworks</h3>
+    <div class="error"></div>
     <div class="artwork-list"></div>
     <div class="footer">Arty Widget &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
   </div>
@@ -25,15 +26,14 @@
 <script id="artwork-list-template" type="text/template">
   <% _.each(artworks, function(artwork) { %>
     <div class="artwork">
-      <a href="/artwork/<%- artwork._id %>/"><%- artwork.name %></a>
+      <a href="/artwork/<%- artwork._id %>/" class="title"><%- artwork.name %></a>
       <% if (artwork.imageUrl) { %>
-        <img class="artwork-image" src="<%- artwork.imageUrl %>">
-      <% } else { %>
-        <form>
-          <input type="file" name="image">
-          <input type="hidden" name="artwork" value="<%- artwork._id %>">
-        </form>
+        <a href="/artwork/<%- artwork._id %>/"><img class="artwork-image" src="<%- artwork.imageUrl %>"></a>
       <% } %>
+      <form>
+        <input type="file" name="image">
+        <input type="hidden" name="artwork" value="<%- artwork._id %>">
+      </form>
     </div>
   <% }); %>
 </script>

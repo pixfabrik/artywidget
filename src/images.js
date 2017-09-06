@@ -22,6 +22,11 @@ module.exports = {
   },
 
   // ----------
+  get: function(query, success, failure) {
+    db.get('images', query).then(success, failure);
+  },
+
+  // ----------
   create: function(creatorId, data, mimetype, success, failure) {
     var self = this;
 
@@ -51,19 +56,17 @@ module.exports = {
   },
 
   // ----------
-  delete: function(image, callback) {
+  delete: function(image, success, failure) {
     s3.deleteObject({
       Bucket: this.bucket,
       Key: image._id + '.' + image.type
     }, function(err, data) {
       if (err) {
-        callback(err);
+        failure(err);
       } else {
         db.remove('images', {
           _id: image._id
-        }).then(function(removedCount) {
-          callback(null, removedCount);
-        }, callback);
+        }).then(success, failure);
       }
     });
   }

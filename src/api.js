@@ -309,12 +309,27 @@ methods = {
                 if (!artwork) {
                   failure('Missing artwork.');
                 } else {
-                  images.create(userId, data, req.file.mimetype, function(url) {
-                    artwork.imageUrl = url;
-                    artworks.update(artwork, function() {
-                      success();
+                  var finish = function() {
+                    images.create(userId, data, req.file.mimetype, function(url) {
+                      artwork.imageUrl = url;
+                      artworks.update(artwork, function() {
+                        success();
+                      }, failure);
                     }, failure);
-                  }, failure);
+                  };
+
+                  if (artwork.imageUrl) {
+                    var imageId = images.idFromUrl(artwork.imageUrl);
+                    images.get({ _id: imageId }, function(image) {
+                      if (!image) {
+                        failure('Unable to replace image; record not found');
+                      } else {
+                        images.delete(image, finish, failure);
+                      }
+                    }, failure);
+                  } else {
+                    finish();
+                  }
                 }
               }, failure);
             }
