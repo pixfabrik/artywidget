@@ -5,7 +5,7 @@ exports.login = function(req, res) {
     res.redirect('/');
   } else {
     views.sendHTML(req, res, 'login', {
-      // forceProtocol: 'https'
+      forceProtocol: 'https'
     });
   }
 };

@@ -3,8 +3,6 @@ var port = process.env.PORT || 8020;
 var isProd = (ipAddress !== 'localhost');
 var wsPort = (ipAddress === 'localhost') ? 16433 : 8080;
 var baseUrl = (isProd) ? 'http://www.artywidget.com' : 'http://' + ipAddress;
-baseUrl = 'http://artywidget.us-3.evennode.com';
-console.log('!!!', baseUrl);
 
 if (!isProd && port !== 80) {
   baseUrl += ':' + port;
