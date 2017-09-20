@@ -48,6 +48,7 @@ var App = {
     var self = this;
 
     var url = 'mongodb://' + this.dbConnectString;
+    console.log('!!!', url);
     MongoClient.connect(url, function(err, database) {
       if (err) {
         console.log('[App.initDb] error connecting', err);
