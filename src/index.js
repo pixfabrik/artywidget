@@ -87,7 +87,7 @@ var App = {
     // if OPENSHIFT env variables are present, use the available connection info:
     if (process.env.APP_CONFIG) {
       var config = JSON.parse(process.env.APP_CONFIG);
-      var host = config.mongo.hostString.replace(/,.*$/, ''); // Evennode supplies two hosts
+      var host = config.mongo.hostString; //.replace(/,.*$/, ''); // Evennode supplies two hosts
       this.dbConnectString = config.mongo.user + ':' +
         process.env.MONGODB_DB_PASSWORD + '@' + host;
     }
