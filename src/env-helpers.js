@@ -1,5 +1,5 @@
-var ipAddress = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8020;
+var ipAddress = process.env.PORT ? '0.0.0.0' : 'localhost';
+var port = process.env.PORT || 8020;
 var isProd = (ipAddress !== 'localhost');
 var wsPort = (ipAddress === 'localhost') ? 16433 : 8080;
 var baseUrl = (isProd) ? 'http://www.artywidget.com' : 'http://' + ipAddress;

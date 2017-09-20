@@ -10,7 +10,7 @@ module.exports = {
       passwordSalt: 'PASSWORD_SALT'
     };
 
-    if (process.env.OPENSHIFT_NODEJS_IP) {
+    if (process.env.PORT) {
       _.each(map, function(v, k) {
         self[k] = process.env[v];
       });
