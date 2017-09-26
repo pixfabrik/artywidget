@@ -4,3 +4,4 @@ static/build/
 local-db
 keys-local.js
 transfer/env.js
+transfer/data

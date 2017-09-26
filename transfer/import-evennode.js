@@ -15,7 +15,7 @@ zot.asyncEach(collections, function(name, i, next) {
     ' --username ' + env.evennode.username +
     ' --password ' + env.evennode.password +
     ' --collection ' + collectionName +
-    ' --file ' + name + '.json';
+    ' --file transfer/data/' + name + '.json';
 
   exec(command, function(err, stdout, stderr) {
     if (err) {
@@ -24,7 +24,7 @@ zot.asyncEach(collections, function(name, i, next) {
       console.log('done', name, stdout);
     }
 
-    next();
+    setTimeout(next, 1000);
   });
 }, function() {
   console.log('complete!');
