@@ -83,7 +83,7 @@ var App = {
     this.baseUrl = envHelpers.baseUrl;
 
     this.dbConnectString = '127.0.0.1:27017/dev';
-    // if OPENSHIFT env variables are present, use the available connection info:
+    // if server env variables are present, use the available connection info:
     if (process.env.APP_CONFIG) {
       var config = JSON.parse(process.env.APP_CONFIG);
       this.dbConnectString = config.mongo.user + ':' +
