@@ -26,7 +26,11 @@
           email: $.trim($('.email').val())
         },
         success: function() {
-          location.href = '/';
+          if (App.urlParams.redirect) {
+            location.href = App.urlParams.redirect;
+          } else {
+            location.reload();
+          }
         },
         error: function(message) {
           self._error(message);
