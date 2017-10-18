@@ -31,9 +31,9 @@
 
         self.$favoriteButton.on('click', function() {
           if (App.user.id) {
-            self.$favoriteButton.toggleClass('full');
+            self.saveFavorite();
           } else {
-            var $modal = App.template('simple-modal', {
+            self.simpleModal({
               title: 'Log In to Save Favorites',
               buttons: [
                 {
@@ -49,18 +49,6 @@
                   href: '/signup/?redirect=' + encodeURIComponent(location.pathname)
                 }
               ]
-            }).appendTo('body');
-
-            $modal.on('click', '.cancel', function() {
-              $modal.remove();
-            });
-
-            $modal.on('click', '.modal-content', function(event) {
-              event.stopPropagation();
-            });
-
-            $modal.on('click', function() {
-              $modal.remove();
             });
           }
         });
@@ -75,6 +63,8 @@
   component.prototype = {
     // ----------
     previous: function() {
+      var self = this;
+
       App.request({
         method: 'previous-artwork',
         content: {
@@ -91,6 +81,8 @@
 
     // ----------
     next: function() {
+      var self = this;
+
       App.request({
         method: 'next-artwork',
         content: {
@@ -106,8 +98,53 @@
     },
 
     // ----------
+    saveFavorite: function() {
+      var self = this;
+
+      App.request({
+        method: 'set-favorite',
+        content: {
+          _id: this.artworkId
+        },
+        success: function(data) {
+          self.$favoriteButton.toggleClass('full');
+        },
+        error: function(message) {
+          self._error(message);
+        }
+      });
+    },
+
+    // ----------
+    simpleModal: function(args) {
+      args.message = args.message || '';
+      var $modal = App.template('simple-modal', args).appendTo('body');
+
+      $modal.on('click', '.cancel', function() {
+        $modal.remove();
+      });
+
+      $modal.on('click', '.modal-content', function(event) {
+        event.stopPropagation();
+      });
+
+      $modal.on('click', function() {
+        $modal.remove();
+      });
+    },
+
+    // ----------
     _error: function(message) {
-      $('.error').text(message);
+      this.simpleModal({
+        title: 'Unable to Save Favorite',
+        message: 'Error: ' + message,
+        buttons: [
+          {
+            title: 'OK',
+            className: 'cancel'
+          }
+        ]
+      });
     }
   };
 

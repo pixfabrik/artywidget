@@ -123,7 +123,10 @@
   <div class="modal-container">
     <div class="modal-content">
       <div class="title"><%- title %></div>
-      <div class="buttons">
+      <% if (message) { %>
+        <p><%- message %></p>
+      <% } %>
+      <div class="buttons <%- buttons.length === 1 ? 'single-button' : '' %>">
         <% _.each(buttons, function(button) { %>
           <% if (button.href) { %>
             <a class="button" href="<%- button.href %>"><%- button.title %></a>

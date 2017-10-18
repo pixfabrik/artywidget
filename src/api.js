@@ -337,5 +337,30 @@ methods = {
         }
       });
     }
+  },
+
+  // FAVORITES
+
+  // ----------
+  'set-favorite': function(req, success, failure) {
+    var artworkId = req.body.artworkId;
+
+    if (!req.session.userId) {
+      failure(new Error('You must be logged in to save a favorite.'));
+    } else if (!artworkId) {
+      failure(new Error('You must provide and artwork ID.'));
+    } else {
+      var userId = ObjectId(req.session.userId);
+      artworkId = ObjectId(artworkId);
+      favorites.get({ userId: userId, artworkId: artworkId }, function(favorite) {
+        if (favorite) {
+          success();
+        } else {
+          favorites.create({ userId: userId, artworkId: artworkId }, function() {
+            success();
+          }, failure);
+        }
+      }, failure);
+    }
   }
 };
