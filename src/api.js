@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var artworks = require('./artworks');
 var fs = require('fs');
+var favorites = require('./favorites');
 var images = require('./images');
 var ObjectId = require('mongodb').ObjectId;
 var people = require('./people');
@@ -194,15 +195,33 @@ methods = {
 
   // ----------
   'get-artwork': function(req, success, failure) {
-    var id = req.body._id;
+    var artworkId = req.body._id;
 
-    if (!id) {
+    if (!artworkId) {
       failure('Missing ID.');
     } else {
-      artworks.get({ _id: ObjectId(id) }, function(artwork) {
-        success({
-          artwork: _.pick(artwork, ['name', 'url', 'infoUrl', 'authorName', 'authorUrl'])
-        });
+      artworkId = ObjectId(artworkId);
+      artworks.get({ _id: artworkId }, function(artwork) {
+        artwork = _.pick(artwork, ['name', 'url', 'infoUrl', 'authorName', 'authorUrl']);
+
+        var finish = function() {
+          success({
+            artwork: artwork
+          });
+        };
+
+        if (req.session.userId) {
+          var userId = ObjectId(req.session.userId);
+          favorites.get({ userId: userId, artworkId: artworkId }, function(favorite) {
+            if (favorite) {
+              artwork.isFavorite = true;
+            }
+
+            finish();
+          }, failure);
+        } else {
+          finish();
+        }
       }, failure);
     }
   },
@@ -348,7 +367,7 @@ methods = {
     if (!req.session.userId) {
       failure(new Error('You must be logged in to save a favorite.'));
     } else if (!artworkId) {
-      failure(new Error('You must provide and artwork ID.'));
+      failure(new Error('You must provide an artwork ID.'));
     } else {
       var userId = ObjectId(req.session.userId);
       artworkId = ObjectId(artworkId);
@@ -360,6 +379,23 @@ methods = {
             success();
           }, failure);
         }
+      }, failure);
+    }
+  },
+
+  // ----------
+  'remove-favorite': function(req, success, failure) {
+    var artworkId = req.body.artworkId;
+
+    if (!req.session.userId) {
+      failure(new Error('You must be logged in to remove a favorite.'));
+    } else if (!artworkId) {
+      failure(new Error('You must provide an artwork ID.'));
+    } else {
+      var userId = ObjectId(req.session.userId);
+      artworkId = ObjectId(artworkId);
+      favorites.delete({ userId: userId, artworkId: artworkId }, function() {
+        success();
       }, failure);
     }
   }

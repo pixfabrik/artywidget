@@ -8,6 +8,7 @@
     this.artworkId = config.params[0];
     this.$el = config.$el;
     this.$pageContent = this.$el.find('.page-content');
+    this.isFavorite = false;
 
     App.request({
       method: 'get-artwork',
@@ -21,6 +22,9 @@
         self.$rightArrow = self.$el.find('.right-arrow');
         self.$favoriteButton = self.$el.find('.favorite-button');
 
+        self.isFavorite = !!data.artwork.isFavorite;
+        self.$favoriteButton.toggleClass('full', self.isFavorite);
+
         self.$leftArrow.on('click', function() {
           self.previous();
         });
@@ -31,7 +35,11 @@
 
         self.$favoriteButton.on('click', function() {
           if (App.user.id) {
-            self.saveFavorite();
+            if (self.isFavorite) {
+              self.removeFavorite();
+            } else {
+              self.saveFavorite();
+            }
           } else {
             self.simpleModal({
               title: 'Log In to Save Favorites',
@@ -54,7 +62,7 @@
         });
       },
       error: function(message) {
-        self._error(message);
+        self._error('Unable to load artwork', message);
       }
     });
   };
@@ -74,7 +82,7 @@
           location.href = '/artwork/' + data._id;
         },
         error: function(message) {
-          self._error(message);
+          self._error('Unable to find previous artwork', message);
         }
       });
     },
@@ -92,7 +100,7 @@
           location.href = '/artwork/' + data._id;
         },
         error: function(message) {
-          self._error(message);
+          self._error('Unable to find next artwork', message);
         }
       });
     },
@@ -104,13 +112,33 @@
       App.request({
         method: 'set-favorite',
         content: {
-          _id: this.artworkId
+          artworkId: this.artworkId
         },
         success: function(data) {
-          self.$favoriteButton.toggleClass('full');
+          self.isFavorite = true;
+          self.$favoriteButton.addClass('full');
         },
         error: function(message) {
-          self._error(message);
+          self._error('Unable to save favorite', message);
+        }
+      });
+    },
+
+    // ----------
+    removeFavorite: function() {
+      var self = this;
+
+      App.request({
+        method: 'remove-favorite',
+        content: {
+          artworkId: this.artworkId
+        },
+        success: function(data) {
+          self.isFavorite = false;
+          self.$favoriteButton.removeClass('full');
+        },
+        error: function(message) {
+          self._error('Unable to remove favorite', message);
         }
       });
     },
@@ -134,9 +162,9 @@
     },
 
     // ----------
-    _error: function(message) {
+    _error: function(title, message) {
       this.simpleModal({
-        title: 'Unable to Save Favorite',
+        title: title,
         message: 'Error: ' + message,
         buttons: [
           {
