@@ -77,7 +77,6 @@ var App = {
   setupVariables: function() {
     this.ipAddress = envHelpers.ipAddress;
     this.port = envHelpers.port;
-    this.ipAddress = envHelpers.ipAddress;
     this.wsPort = envHelpers.wsPort;
     this.isProd = envHelpers.isProd;
     this.baseUrl = envHelpers.baseUrl;
