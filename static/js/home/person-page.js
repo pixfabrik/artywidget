@@ -17,6 +17,7 @@
       success: function(data) {
         App.template('person-page-content', data).appendTo(self.$pageContent);
         App.addNavBar(self.$el.find('.nav-bar-stub'));
+        App.template('artwork-list', { artworks: data.favorites }).appendTo(self.$pageContent.find('.artwork-stub'));
       },
       error: function(message) {
         App.errorModal('Unable to load person', message);

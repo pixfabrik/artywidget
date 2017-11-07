@@ -13,7 +13,7 @@
       success: function(data) {
         // data.artworks = data.artworks.concat(data.artworks);
         data.artworks = _.shuffle(data.artworks);
-        App.template('home-artwork', data).appendTo(self.$artworkStub);
+        App.template('artwork-list', data).appendTo(self.$artworkStub);
       },
       error: function(message) {
         self._error(message);
