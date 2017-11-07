@@ -38,7 +38,7 @@ module.exports = {
   },
 
   // ----------
-  getAll: function(collectionName, sort) {
+  getMany: function(collectionName, query, sort) {
     var self = this;
 
     return new Promise(function(resolve, reject) {
@@ -47,7 +47,7 @@ module.exports = {
         options.sort = sort;
       }
 
-      self.db.collection(collectionName).find({}, options).toArray(function(err, docs) {
+      self.db.collection(collectionName).find(query, options).toArray(function(err, docs) {
         // console.log(JSON.stringify(docs));
         if (err) {
           reject(err);
@@ -56,6 +56,11 @@ module.exports = {
         }
       });
     });
+  },
+
+  // ----------
+  getAll: function(collectionName, sort) {
+    return this.getMany(collectionName, {}, sort);
   },
 
   // ----------

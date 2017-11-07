@@ -138,6 +138,47 @@ methods = {
   },
 
   // ----------
+  'get-person-favorites': function(req, success, failure) {
+    var username = req.body.username;
+
+    if (!username) {
+      failure(new Error('Missing username.'));
+    } else {
+      people.get({ username: username }, function(person) {
+        if (!person) {
+          failure('Unable to find person.');
+        } else {
+          favorites.getMany({ userId: person._id }, null, function(favoriteList) {
+            var artworkList = [];
+            zot.asyncEach(favoriteList, function(favorite, i, next) {
+              artworks.get({ _id: favorite.artworkId }, function(artwork) {
+                artworkList.push(_.pick(artwork, [
+                  '_id',
+                  'name',
+                  'url',
+                  'infoUrl',
+                  'authorName',
+                  'authorUrl',
+                  'creationDate',
+                  'submitterId',
+                  'imageUrl'
+                ]));
+
+                next();
+              }, failure);
+            }, function() {
+              success({
+                person: _.pick(person, ['username']),
+                favorites: artworkList
+              });
+            });
+          }, failure);
+        }
+      });
+    }
+  },
+
+  // ----------
   'get-all-people': function(req, success, failure) {
     people.getMany({}, null, function(records) {
       success({

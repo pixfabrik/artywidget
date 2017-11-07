@@ -18,7 +18,7 @@
 <script id="people-list-template" type="text/template">
   <% _.each(people, function(person) { %>
     <div class="person">
-      <%- person.username %>
+      <a href="/person/<%- person.username %>/"><%- person.username %></a>
     </div>
   <% }); %>
 </script>

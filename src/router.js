@@ -10,6 +10,7 @@ module.exports = function(express) {
   express.get('/about', defaults.home);
   express.get('/add', defaults.home);
   express.get('/artwork/:artworkId', defaults.artwork);
+  express.get('/person/:username', defaults.home);
 
   // -- USER
   express.get('/login', user.login);

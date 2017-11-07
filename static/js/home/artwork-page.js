@@ -41,7 +41,7 @@
               self.saveFavorite();
             }
           } else {
-            self.simpleModal({
+            App.simpleModal({
               title: 'Log In to Save Favorites',
               buttons: [
                 {
@@ -62,7 +62,7 @@
         });
       },
       error: function(message) {
-        self._error('Unable to load artwork', message);
+        App.errorModal('Unable to load artwork', message);
       }
     });
   };
@@ -82,7 +82,7 @@
           location.href = '/artwork/' + data._id;
         },
         error: function(message) {
-          self._error('Unable to find previous artwork', message);
+          App.errorModal('Unable to find previous artwork', message);
         }
       });
     },
@@ -100,7 +100,7 @@
           location.href = '/artwork/' + data._id;
         },
         error: function(message) {
-          self._error('Unable to find next artwork', message);
+          App.errorModal('Unable to find next artwork', message);
         }
       });
     },
@@ -119,7 +119,7 @@
           self.$favoriteButton.addClass('full');
         },
         error: function(message) {
-          self._error('Unable to save favorite', message);
+          App.errorModal('Unable to save favorite', message);
         }
       });
     },
@@ -138,40 +138,8 @@
           self.$favoriteButton.removeClass('full');
         },
         error: function(message) {
-          self._error('Unable to remove favorite', message);
+          App.errorModal('Unable to remove favorite', message);
         }
-      });
-    },
-
-    // ----------
-    simpleModal: function(args) {
-      args.message = args.message || '';
-      var $modal = App.template('simple-modal', args).appendTo('body');
-
-      $modal.on('click', '.cancel', function() {
-        $modal.remove();
-      });
-
-      $modal.on('click', '.modal-content', function(event) {
-        event.stopPropagation();
-      });
-
-      $modal.on('click', function() {
-        $modal.remove();
-      });
-    },
-
-    // ----------
-    _error: function(title, message) {
-      this.simpleModal({
-        title: title,
-        message: 'Error: ' + message,
-        buttons: [
-          {
-            title: 'OK',
-            className: 'cancel'
-          }
-        ]
       });
     }
   };

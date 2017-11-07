@@ -28,7 +28,7 @@
         <div class="right">
           <a href="/add/" class="add-link" title="add artwork"></a>
           <% if (username) { %>
-            <%- username %> <a href="/logout?redirect=<%- encodeURI(location.href) %>">log out</a>
+            <a class="username" href="/person/<%- username %>/"><%- username %></a> <a href="/logout?redirect=<%- encodeURI(location.href) %>">log out</a>
           <% } else { %>
             <a href="/signup/">sign up</a> / <a href="/login/">log in</a>
           <% } %>

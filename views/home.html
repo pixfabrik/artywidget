@@ -81,6 +81,31 @@
   </div>
 </script>
 
+<script id="person-page-template" type="text/template">
+  <div class="page-content"></div>
+</script>
+
+<script id="person-page-content-template" type="text/template">
+  <div class="nav-bar-stub"></div>
+  <h1><%- person.username %></h1>
+  <h2>Favorites</h2>
+  <div class="artwork-list">
+    <% _.each(favorites, function(artwork) { %>
+      <% if (artwork.imageUrl) { %>
+        <a href="/artwork/<%- artwork._id %>/" class="artwork">
+          <div class="thumbnail" style="background-image: url(<%- artwork.imageUrl %>)"></div>
+          <div class="title">
+            <%- artwork.name %>
+            <% if (artwork.authorName) { %>
+              by <%- artwork.authorName %>
+            <% } %>
+          </div>
+        </a>
+      <% } %>
+    <% }); %>
+  </div>
+</script>
+
 <script id="add-page-template" type="text/template">
   <div class="nav-bar-stub"></div>
   <div class="content-frame">

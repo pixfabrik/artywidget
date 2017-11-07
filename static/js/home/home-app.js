@@ -11,9 +11,42 @@
         ['/add', 'Add'],
         ['/about', 'About'],
         ['/artwork/(.*)', 'Artwork'],
+        ['/person/(.*)', 'Person'],
         ['', 'Home'],
         ['.*', 'NotFound']
       ]);
+    },
+
+    // ----------
+    simpleModal: function(args) {
+      args.message = args.message || '';
+      var $modal = App.template('simple-modal', args).appendTo('body');
+
+      $modal.on('click', '.cancel', function() {
+        $modal.remove();
+      });
+
+      $modal.on('click', '.modal-content', function(event) {
+        event.stopPropagation();
+      });
+
+      $modal.on('click', function() {
+        $modal.remove();
+      });
+    },
+
+    // ----------
+    errorModal: function(title, message) {
+      this.simpleModal({
+        title: title,
+        message: 'Error: ' + message,
+        buttons: [
+          {
+            title: 'OK',
+            className: 'cancel'
+          }
+        ]
+      });
     }
   });
 

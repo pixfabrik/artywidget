@@ -10,6 +10,11 @@ module.exports = {
   },
 
   // ----------
+  getMany: function(query, sort, success, failure) {
+    db.getMany('favorites', query, sort).then(success, failure);
+  },
+
+  // ----------
   create: function(favorite, success, failure) {
     db.save('favorites', favorite).then(success, failure);
   },

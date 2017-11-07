@@ -1,19 +1,8 @@
-.home-page {
-  text-align: center;
-
-  h1 {
-    margin-bottom: 0;
-  }
-
-  .artwork-stub {
-    margin: 15px 0 70px 0;
-  }
-
-  .artwork-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+// ----------
+.artwork-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 
   .artwork {
     display: flex;
@@ -32,12 +21,9 @@
     }
 
     .title {
+      text-align: center;
       margin: 5px 0;
     }
-  }
-
-  .content-body {
-    text-align: left;
   }
 
   @media (max-width: 2100px) {
@@ -71,6 +57,24 @@
   }
 }
 
+// ----------
+.home-page {
+  text-align: center;
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  .artwork-stub {
+    margin: 15px 0 70px 0;
+  }
+
+  .content-body {
+    text-align: left;
+  }
+}
+
+// ----------
 .artwork-page {
   .page-content {
     display: flex;
@@ -153,6 +157,19 @@
   }
 }
 
+// ----------
+.person-page {
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+}
+
+// ----------
 .add-page {
   .general-form {
     input {
@@ -161,6 +178,7 @@
   }
 }
 
+// ----------
 .modal-container {
   display: flex;
   position: absolute;
@@ -206,6 +224,7 @@
   }
 }
 
+// ----------
 .for-artwork-page {
   width: 100%;
   height: 100%;
