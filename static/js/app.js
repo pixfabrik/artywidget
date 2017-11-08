@@ -44,9 +44,9 @@
 
     // ----------
     addNavBar: function($parent) {
-      this.template('nav-bar', {
+      $parent.html(this.template('nav-bar', {
         username: this.user.name
-      }).appendTo($parent);
+      }));
     },
 
     // ----------

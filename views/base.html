@@ -26,6 +26,7 @@
           <a href="/about/">about</a>
         </div>
         <div class="right">
+          <a href="/play/" class="play-link" title="play favorites"></a>
           <a href="/add/" class="add-link" title="add artwork"></a>
           <% if (username) { %>
             <a class="username" href="/person/<%- username %>/"><%- username %></a> <a href="/logout?redirect=<%- encodeURI(location.href) %>">log out</a>

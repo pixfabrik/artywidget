@@ -48,6 +48,22 @@
   </div>
 </script>
 
+<script id="play-page-gateway-template" type="text/template">
+  <div class="nav-bar-stub"></div>
+  <div class="content-frame">
+    <h1>Play</h1>
+    <div class="content-body">
+      <p>Once you have collected some favorites, this Play page will display them one after the next (in random order, looping after you've seen them all) for 5 minutes each; perfect for an ambient display.</p>
+      <% if (App.user.name) { %>
+        <p>You'll need to collect some favorites first though!</p>
+      <% } else { %>
+        <p>You'll need to <a href="/signup/">sign up</a> / <a href="/login/">log in</a> first, and collect some favorites.</p>
+      <% } %>
+    </div>
+    <div class="footer">Arty Widget &copy; 2017, <a href="http://pixfabrik.com" target="_blank">Pixfabrik, LLC</a></div>
+  </div>
+</script>
+
 <script id="play-page-template" type="text/template">
   <div class="page-content">
     <iframe class="artwork-iframe" src=""></iframe>

@@ -20,7 +20,7 @@
             self.favorites = data.favorites;
             self.next();
           } else {
-            App.errorModal('You need to collect some favorites');
+            self.gateway();
           }
         },
         error: function(message) {
@@ -28,7 +28,7 @@
         }
       });
     } else {
-      App.errorModal('You must sign in first'); // TODO
+      this.gateway();
     }
   };
 
@@ -50,8 +50,15 @@
       if (this.favorites.length > 1) {
         setTimeout(function() {
           self.next();
-        }, 1000 * 5);
+        }, 1000 * 60 * 5); // 5 minutes
       }
+    },
+
+    // ----------
+    gateway: function() {
+      this.$el.html(App.template('play-page-gateway'));
+      $('html').removeClass('for-play-page');
+      App.addNavBar(this.$el.find('.nav-bar-stub'));
     }
   };
 
