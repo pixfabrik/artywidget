@@ -35,7 +35,6 @@
       if (this.fromServer) {
         this.user.id = this.fromServer.userId;
         this.user.name = this.fromServer.username;
-        this.user.spotifyId = this.fromServer.spotifyId;
       }
 
       if (this.initMain) {
