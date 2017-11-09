@@ -2,10 +2,22 @@ var artworks = require('../artworks');
 var ObjectId = require('mongodb').ObjectId;
 var views = require('../views');
 
+// ----------
 exports.home = function(req, res) {
   views.sendHTML(req, res, 'home');
 };
 
+// ----------
+exports.play = function(req, res) {
+  var options = {
+    // We need to force http for play pages, because some of the art we show via the iframe may be in http
+    forceProtocol: 'http'
+  };
+
+  views.sendHTML(req, res, 'home', options);
+};
+
+// ----------
 exports.artwork = function(req, res) {
   var artworkId = req.params.artworkId;
 

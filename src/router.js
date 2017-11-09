@@ -9,14 +9,14 @@ module.exports = function(express) {
   express.get('/', defaults.home);
   express.get('/about', defaults.home);
   express.get('/add', defaults.home);
-  express.get('/play', defaults.home);
+  express.get('/play', defaults.play);
   express.get('/artwork/:artworkId', defaults.artwork);
   express.get('/person/:username', defaults.home);
 
   // -- USER
   express.get('/login', user.login);
   express.get('/signup', user.login);
-//  express.get('/settings', user.settings);
+  // express.get('/settings', user.settings);
   express.get('/logout', user.logout);
 
   // -- ADMIN
