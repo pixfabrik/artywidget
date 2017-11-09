@@ -34,7 +34,7 @@
 
   // ----------
   component.prototype = {
-  // ----------
+    // ----------
     next: function() {
       var self = this;
 
