@@ -10,7 +10,7 @@ exports.home = function(req, res) {
 // ----------
 exports.play = function(req, res) {
   var options = {
-    // We need to force http for play pages, because some of the art we show via the iframe may be in http
+  // We need to force http for play pages, because some of the art we show via the iframe may be in http
     forceProtocol: 'http'
   };
 
