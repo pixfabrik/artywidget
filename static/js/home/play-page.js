@@ -19,7 +19,7 @@
         success: function(data) {
           if (data.favorites.length) {
             self.favorites = data.favorites;
-            self.next();
+            self.start();
           } else {
             self.gateway();
           }
@@ -36,6 +36,39 @@
   // ----------
   component.prototype = {
     // ----------
+    start: function() {
+      var self = this;
+
+      this.next();
+
+      this.$overlay.on('mousemove', function() {
+        self.interactiveOverlay(true);
+        clearTimeout(self.mouseTimeout);
+        self.mouseTimeout = setTimeout(function() {
+          self.interactiveOverlay(false);
+        }, 5000);
+      });
+    },
+
+    // ----------
+    interactiveOverlay: function(flag) {
+      this.interactiveOverlayFlag = flag;
+      this.renderOverlay();
+    },
+
+    // ----------
+    renderOverlay: function() {
+      if (!this.artwork) {
+        return;
+      }
+
+      this.$overlay.html(App.template('play-overlay', {
+        artwork: this.artwork,
+        interactive: !!this.interactiveOverlayFlag
+      }));
+    },
+
+    // ----------
     next: function() {
       var self = this;
 
@@ -43,14 +76,12 @@
         this.incoming = _.shuffle(this.favorites);
       }
 
-      var artwork = this.incoming.pop();
+      this.artwork = this.incoming.pop();
       this.$iframe.prop({
-        src: artwork.url
+        src: this.artwork.url
       });
 
-      // this.$overlay.html(App.template('play-overlay', {
-      //   artwork: artwork
-      // }));
+      this.renderOverlay();
 
       if (this.favorites.length > 1) {
         setTimeout(function() {

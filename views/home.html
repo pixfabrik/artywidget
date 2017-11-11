@@ -72,17 +72,25 @@
 </script>
 
 <script id="play-overlay-template" type="text/template">
-  <div class="overlay-content">
-    <a href="/">Arty Widget</a>
-    <%- artwork.name %>
-    <% if (artwork.authorName) { %>
-      <% if (artwork.authorUrl) { %>
-        by <a href="<%- artwork.authorUrl %>" target="_blank"><%- artwork.authorName %></a>
-      <% } else { %>
-        by <%- artwork.authorName %>
+  <div class="overlay-content <%- interactive ? 'interactive' : '' %>">
+    <% if (interactive) { %>
+      <a href="/artwork/<%- artwork._id %>/"><%- artwork.name %></a>
+      <% if (artwork.authorName) { %>
+        <% if (artwork.authorUrl) { %>
+          by <a href="<%- artwork.authorUrl %>" target="_blank"><%- artwork.authorName %></a>
+        <% } else { %>
+          by <%- artwork.authorName %>
+        <% } %>
       <% } %>
+      (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
+      on <a href="/">Arty Widget</a>
+    <% } else { %>
+      <strong><%- artwork.name %></strong>
+      <% if (artwork.authorName) { %>
+        by <strong><%- artwork.authorName %></strong>
+      <% } %>
+      on Arty Widget
     <% } %>
-    (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
   </div>
 </script>
 
