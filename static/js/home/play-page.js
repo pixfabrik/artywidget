@@ -7,6 +7,7 @@
 
     this.$el = config.$el;
     this.$iframe = this.$el.find('.artwork-iframe');
+    this.$overlay = this.$el.find('.overlay');
     this.incoming = [];
 
     if (App.user.name) {
@@ -46,6 +47,10 @@
       this.$iframe.prop({
         src: artwork.url
       });
+
+      // this.$overlay.html(App.template('play-overlay', {
+      //   artwork: artwork
+      // }));
 
       if (this.favorites.length > 1) {
         setTimeout(function() {

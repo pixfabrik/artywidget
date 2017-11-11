@@ -67,6 +67,22 @@
 <script id="play-page-template" type="text/template">
   <div class="page-content">
     <iframe class="artwork-iframe" src=""></iframe>
+    <div class="overlay"></div>
+  </div>
+</script>
+
+<script id="play-overlay-template" type="text/template">
+  <div class="overlay-content">
+    <a href="/">Arty Widget</a>
+    <%- artwork.name %>
+    <% if (artwork.authorName) { %>
+      <% if (artwork.authorUrl) { %>
+        by <a href="<%- artwork.authorUrl %>" target="_blank"><%- artwork.authorName %></a>
+      <% } else { %>
+        by <%- artwork.authorName %>
+      <% } %>
+    <% } %>
+    (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
   </div>
 </script>
 

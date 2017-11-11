@@ -133,7 +133,17 @@
 
     // ----------
     template: function(name, config) {
-      var rawTemplate = $.trim($('#' + name + '-template').text());
+      var $template = $('#' + name + '-template');
+      if (!$template.length) {
+        console.error('[App.template] missing template', name);
+        return $('');
+      }
+
+      var rawTemplate = $.trim($template.text());
+      if (!rawTemplate) {
+        console.error('[App.template] empty template', name);
+      }
+
       var template = _.template(rawTemplate);
       var html = template(config);
       return $(html);
