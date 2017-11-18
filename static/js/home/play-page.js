@@ -8,13 +8,21 @@
     this.$el = config.$el;
     this.$iframe = this.$el.find('.artwork-iframe');
     this.$overlay = this.$el.find('.overlay');
+    this.$overlayContent = this.$overlay.find('.overlay-content');
     this.incoming = [];
 
-    if (App.user.name) {
+    var username;
+    if (App.urlParams.favorites) {
+      username = App.urlParams.favorites;
+    } else {
+      username = App.user.name;
+    }
+
+    if (username) {
       App.request({
         method: 'get-person-favorites',
         content: {
-          username: App.user.name
+          username: username
         },
         success: function(data) {
           if (data.favorites.length) {
@@ -62,10 +70,12 @@
         return;
       }
 
-      this.$overlay.html(App.template('play-overlay', {
+      this.$overlayContent.html(App.template('play-overlay', {
         artwork: this.artwork,
         interactive: !!this.interactiveOverlayFlag
       }));
+
+      this.$overlayContent.toggleClass('interactive', !!this.interactiveOverlayFlag);
     },
 
     // ----------
