@@ -20,7 +20,7 @@ var run = function(args) {
         console.log('err', name, 'trying again');
         exec(command, function(err, stdout, stderr) {
           if (err) {
-            console.log('err', name, 'giving up');
+            console.log('err', name, 'giving up', err, stderr);
           } else {
             console.log('done', name, stdout);
           }
