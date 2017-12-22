@@ -7,13 +7,15 @@ var AWS = require('aws-sdk');
 var db = require('./db');
 var ObjectId = require('mongodb').ObjectId;
 var Jimp = require('jimp');
+var envHelpers = require('./env-helpers');
 
 var s3 = new AWS.S3();
+var bucketBase = 'artywidget/' + (envHelpers.isProd ? '' : 'dev/');
 
 module.exports = {
-  baseUrl: 'https://s3.amazonaws.com/artywidget/images/',
-  bucket: 'artywidget/images',
-  originalsBucket: 'artywidget/original-images',
+  baseUrl: 'https://s3.amazonaws.com/' + bucketBase + 'images/',
+  bucket: bucketBase + 'images',
+  originalsBucket: bucketBase + 'original-images',
 
   // ----------
   idFromUrl: function(url) {

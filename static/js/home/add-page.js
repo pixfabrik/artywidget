@@ -20,15 +20,13 @@
     });
 
     $submit.on('click', function() {
+      var formData = new FormData($form[0]);
+
       App.request({
         method: 'add-artwork',
-        content: {
-          artworkName: $.trim($artworkName.val()),
-          artworkUrl: $.trim($artworkUrl.val()),
-          infoUrl: $.trim($infoUrl.val()),
-          authorName: $.trim($authorName.val()),
-          authorUrl: $.trim($authorUrl.val())
-        },
+        content: formData,
+        contentType: false,
+        processData: false,
         success: function(result) {
           location.href = '/artwork/' + result._id + '/';
         },

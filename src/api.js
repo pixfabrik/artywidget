@@ -199,38 +199,75 @@ methods = {
     var authorName = (req.body.authorName || '').trim();
     var authorUrl = (req.body.authorUrl || '').trim();
 
-    if (!req.session.userId) {
-      failure(new Error('You must be logged in to add an artwork.'));
-    } else {
-      people.get({ _id: ObjectId(req.session.userId) }, function(person) {
-        if (!person) {
-          failure(new Error('You must be logged in to add an artwork.'));
-        } else {
-          if (!artworkUrl) {
-            failure('You must include an artwork URL.');
+    var start = function(fileData) {
+      if (!req.session.userId) {
+        failure(new Error('You must be logged in to add an artwork.'));
+      } else {
+        var userId = ObjectId(req.session.userId);
+        people.get({ _id: userId }, function(person) {
+          if (!person) {
+            failure(new Error('You must be logged in to add an artwork.'));
           } else {
-            artworks.get({ url: artworkUrl }, function(artwork) {
-              if (artwork) {
-                failure('That artwork has already been added.');
-              } else {
-                artworks.create({
-                  name: artworkName,
-                  url: artworkUrl,
-                  infoUrl: infoUrl,
-                  authorName: authorName,
-                  authorUrl: authorUrl,
-                  creationDate: (new Date()).toISOString(),
-                  submitterId: person._id,
-                }, function(artwork) {
-                  success({
-                    _id: artwork._id
-                  });
-                }, failure);
-              }
-            }, failure);
+            if (!artworkUrl) {
+              failure('You must include an artwork URL.');
+            } else {
+              artworks.get({ url: artworkUrl }, function(artwork) {
+                if (artwork) {
+                  failure('That artwork has already been added.');
+                } else {
+                  var finish = function(imageUrl) {
+                    var config = {
+                      name: artworkName,
+                      url: artworkUrl,
+                      infoUrl: infoUrl,
+                      authorName: authorName,
+                      authorUrl: authorUrl,
+                      creationDate: (new Date()).toISOString(),
+                      submitterId: person._id,
+                    };
+
+                    if (imageUrl) {
+                      config.imageUrl = imageUrl;
+                    }
+
+                    artworks.create(config, function(artwork) {
+                      success({
+                        _id: artwork._id
+                      });
+                    }, failure);
+                  };
+
+                  if (req.file) {
+                    images.create(userId, fileData, req.file.mimetype, function(url) {
+                      finish(url);
+                    }, failure);
+                  } else {
+                    finish();
+                  }
+                }
+              }, failure);
+            }
           }
+        }, failure);
+      }
+    };
+
+    if (req.file) {
+      fs.readFile(req.file.path, function(err, data) {
+        fs.unlink(req.file.path, function(err) {
+          if (err) {
+            console.log('[add-artwork] error deleting temp file', err);
+          }
+        });
+
+        if (err) {
+          failure(err);
+        } else {
+          start(data);
         }
-      }, failure);
+      });
+    } else {
+      start();
     }
   },
 
