@@ -103,7 +103,8 @@ module.exports = {
 
   // ----------
   delete: function(image, success, failure) {
-    // TODO: Delete the original too
+    var self = this;
+
     s3.deleteObject({
       Bucket: this.bucket,
       Key: image._id + '.' + image.type
@@ -113,7 +114,18 @@ module.exports = {
       } else {
         db.remove('images', {
           _id: image._id
-        }).then(success, failure);
+        }).then(function() {
+          success();
+
+          s3.deleteObject({
+            Bucket: self.originalsBucket,
+            Key: image._id + '.' + image.originalType
+          }, function(err, data) {
+            if (err) {
+              console.log('WARNING: Failed to delete original image', image._id, err);
+            }
+          });
+        }, failure);
       }
     });
   }
