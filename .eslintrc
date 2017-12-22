@@ -263,6 +263,7 @@
     "globals": {
       "App": true,
       "$": false,
-      "_": false
+      "_": false,
+      "screenfull": false
     }
 }

@@ -85,6 +85,9 @@
     <% } %>
     (<a href="<%- artwork.url %>" target="_blank">original</a><% if (artwork.infoUrl) { %>, <a href="<%- artwork.infoUrl %>" target="_blank">more info</a><% } %>)
     on <a href="/">Arty Widget</a>
+    <% if (fullscreenEnabled) { %>
+      <div class="fullscreen-button"></div>
+    <% } %>
   <% } else { %>
     <strong><%- artwork.name %></strong>
     <% if (artwork.authorName) { %>

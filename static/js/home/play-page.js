@@ -18,6 +18,10 @@
       username = App.user.name;
     }
 
+    this.$overlayContent.on('click', '.fullscreen-button', function() {
+      screenfull.toggle();
+    });
+
     if (username) {
       App.request({
         method: 'get-person-favorites',
@@ -72,7 +76,8 @@
 
       this.$overlayContent.html(App.template('play-overlay', {
         artwork: this.artwork,
-        interactive: !!this.interactiveOverlayFlag
+        interactive: !!this.interactiveOverlayFlag,
+        fullscreenEnabled: screenfull.enabled
       }));
 
       this.$overlayContent.toggleClass('interactive', !!this.interactiveOverlayFlag);
