@@ -7,6 +7,17 @@
 
     this.$el = config.$el;
     this.$artworkStub = this.$el.find('.artwork-stub');
+    this.$intro = this.$el.find('.intro');
+    this.$okButton = this.$el.find('.ok-button');
+
+    if (!localStorage.getItem('seen-intro') || App.urlParams.intro) {
+      this.$intro.show();
+    }
+
+    this.$okButton.on('click', function() {
+      self.$intro.slideUp();
+      localStorage.setItem('seen-intro', 'true');
+    });
 
     App.request({
       method: 'get-all-artworks',
