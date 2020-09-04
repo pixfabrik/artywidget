@@ -20,7 +20,7 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.2.0",
     "jimp": "^0.2.28",
-    "mongodb": "^2.2.31",
+    "mongodb": "^3.1.13",
     "multer": "^1.0.1",
     "promise": "^7.0.3",
     "querystring": "~0.2.0",
